@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /*draggable folder css element*/
+        #draggable{
+            width: 64px;
+            height: 56px;
+            background-image: url('https://i.ibb.co/VSwJs46/pixel-Folder.png');
+            position: absolute;
+            user-select: none;
+        }
+        /*label text that follows folder*/
+        #text{
+            position: absolute;
+            text-align: center;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+  <!--hyperlink attribute to draggable folder-->
+  <a id="hyperlink" href="https://google.com">
+    <div id="draggable"></div>
+  </a>
+    <div id="text">nuL</div>
+    <!--js script to implement draggability and hyperlink functionality-->
+    <script>
+        const draggable = document.getElementById('draggable');
+        const text = document.getElementById('text');
+        updateTextPosition();
+        let offsetX, offsetY;
+        let isDragging = false;
+
+        //event listeners
+
+        draggable.addEventListener('mousedown', dragStart);
+        draggable.addEventListener('mouseup', dragEnd);
+        document.addEventListener('mousemove', drag);
+
+        //mobile functionality listeners
+        draggable.addEventListener('touchstart', touchStart);
+        document.addEventListener('touchend', dragEnd);
+        document.addEventListener('touchmove', touchMove);
+
+        //starts dragging, uses isDragging variable to start, and removes the hyperlink attribute so it doesn't trigger on release.
+        function dragStart(event) {
+            isDragging = true;
+            hyperlink.removeAttribute('href');
+            offsetX = event.clientX - draggable.getBoundingClientRect().left;
+            offsetY = event.clientY - draggable.getBoundingClientRect().top;
+        }
+        //sets isDragging to false and reapplies the hyperlink attribute on a 100ms timer as to not redirect upon drag release
+        function dragEnd() {
+            isDragging = false;
+            setTimeout(() => {
+                hyperlink.setAttribute('href', 'https://www.google.com');
+            },100);
+        }
+
+        //repositons elements to follow cursor
+        function drag(event) {
+            if (isDragging) {
+                draggable.style.left = event.clientX - offsetX + 'px';
+                draggable.style.top = event.clientY - offsetY + 'px';
+                updateTextPosition();
+            }
+        }
+        //repositions text relative to the dragging folder element
+        function updateTextPosition() {
+            const folderRect = draggable.getBoundingClientRect();
+            const textRect = text.getBoundingClientRect();
+
+            // Center the text horizontally
+            const textLeft = folderRect.left + (folderRect.width - textRect.width) / 2;
+            text.style.left = textLeft + 'px';
+
+            // Position the text vertically at the bottom of the folder
+            text.style.top = folderRect.bottom + 'px';
+        }
+
+
+        function touchMove(event) {
+          if (isDragging) {
+            const touch = event.touches[0];
+            draggable.style.left = touch.clientX - offsetX + 'px';
+            draggable.style.top = touch.clientY - offsetY + 'px';
+            updateTextPosition();
+          }
+        }
+        
+    </script>
+</body>
+</html>
