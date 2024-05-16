@@ -32,7 +32,7 @@
         let offsetX, offsetY;
         let isDragging = false;
         
-        //generates a random position for the folder to start if there is no position already saved in the browser local storage. Saves position of folder from last visit.
+        //generates a random position for the folder to start if there is no position already saved in the browser local storage. saves position of folder from last visit.
         if (!localStorage.getItem('folderPosition')) {
             const randomX = Math.floor(Math.random() * (window.innerWidth - 64));
             const randomY = Math.floor(Math.random() * (window.innerHeight - 56));
