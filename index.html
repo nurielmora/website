@@ -32,15 +32,21 @@
         let offsetX, offsetY;
         let isDragging = false;
         
-        //testing with browser cookies to remember folder positions
-        if (localStorage.getItem('folderPosition')) {
-                    const savedPosition = JSON.parse(localStorage.getItem('folderPosition'));
-                    draggable.style.left = savedPosition.x + 'px';
-                    draggable.style.top = savedPosition.y + 'px';
-                    updateTextPosition();
-                }
+        //generates a random position for the folder to start if there is no position already saved in the browser local storage. Saves position of folder from last visit.
+        if (!localStorage.getItem('folderPosition')) {
+            const randomX = Math.floor(Math.random() * (window.innerWidth - 64));
+            const randomY = Math.floor(Math.random() * (window.innerHeight - 56));
+            draggable.style.left = randomX + 'px';
+            draggable.style.top = randomY + 'px';
+            updateTextPosition();
+        } else {
+            const savedPosition = JSON.parse(localStorage.getItem('folderPosition'));
+            draggable.style.left = savedPosition.x + 'px';
+            draggable.style.top = savedPosition.y + 'px';
+            updateTextPosition();
+        }
+        
         //event listeners
-
         draggable.addEventListener('mousedown', dragStart);
         draggable.addEventListener('mouseup', dragEnd);
         document.addEventListener('mousemove', drag);
@@ -64,7 +70,7 @@
                 hyperlink.setAttribute('href', 'https://www.google.com');
             },100);
 
-            //expiriment to save positions upon drag end to store
+            //updates position variable with position of the folder from last drag.
             const position = {
                 x: parseInt(draggable.style.left),
                 y: parseInt(draggable.style.top)
