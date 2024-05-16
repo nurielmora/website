@@ -3,7 +3,7 @@
 <head>
     <style>
         /*draggable folder css element*/
-        #draggable{
+        .draggable{
             width: 64px;
             height: 56px;
             background-image: url('https://raw.githubusercontent.com/nurielmora/website/main/pixelFolder.png');
@@ -11,7 +11,7 @@
             user-select: none;
         }
         /*label text that follows folder*/
-        #text{
+        .text{
             position: absolute;
             text-align: center;
             user-select: none;
@@ -20,18 +20,157 @@
 </head>
 <body>
   <!--hyperlink attribute to draggable folder-->
-  <a id="hyperlink" href="https://google.com">
-    <div id="draggable"></div>
+  <a class="hyperlink" href="https://google.com">
+    <div class="draggable" id="draggable1"></div>
   </a>
-    <div id="text">nuL</div>
+    <div class="text" id="text1">nuL</div>
+
+  <!--hyperlink attribute to draggable folder for YouTube-->
+  <a class="hyperlink" href="https://youtube.com">
+    <div class="draggable" id="draggable2"></div>
+  </a>
+    <div class="text" id="text2">nuP</div>
+
     <!--js script to implement draggability and hyperlink functionality-->
     <script>
-        const draggable = document.getElementById('draggable');
-        const text = document.getElementById('text');
-        updateTextPosition();
-        let offsetX, offsetY;
-        let isDragging = false;
-        let originalHref;
-        const hyperlink = document.getElementById('hyperlink');
+        const draggable1 = document.getElementById('draggable1');
+        const text1 = document.getElementById('text1');
+        updateTextPosition(draggable1, text1);
 
-        //generates a random position for the folder to start if there is no
+        const draggable2 = document.getElementById('draggable2');
+        const text2 = document.getElementById('text2');
+        updateTextPosition(draggable2, text2);
+
+        let offsetX1, offsetY1, offsetX2, offsetY2;
+        let isDragging1 = false, isDragging2 = false;
+        
+        //generates a random position for the folder to start if there is no position already saved in the browser local storage. saves position of folder from last visit.
+        function initializeFolder(draggable, text, id) {
+            if (!localStorage.getItem(`folder${id}Position`)) {
+                const randomX = Math.floor(Math.random() * (window.innerWidth - 64));
+                const randomY = Math.floor(Math.random() * (window.innerHeight - 56));
+                draggable.style.left = randomX + 'px';
+                draggable.style.top = randomY + 'px';
+                updateTextPosition(draggable, text);
+            } else {
+                const savedPosition = JSON.parse(localStorage.getItem(`folder${id}Position`));
+                draggable.style.left = savedPosition.x + 'px';
+                draggable.style.top = savedPosition.y + 'px';
+                updateTextPosition(draggable, text);
+            }
+        }
+
+        initializeFolder(draggable1, text1, 1);
+        initializeFolder(draggable2, text2, 2);
+
+        //event listeners for draggable1
+        draggable1.addEventListener('mousedown', (event) => dragStart(event, draggable1));
+        draggable1.addEventListener('mouseup', dragEnd);
+        document.addEventListener('mousemove', (event) => drag(event, draggable1));
+
+        //event listeners for draggable2
+        draggable2.addEventListener('mousedown', (event) => dragStart(event, draggable2));
+        draggable2.addEventListener('mouseup', dragEnd);
+        document.addEventListener('mousemove', (event) => drag(event, draggable2));
+
+        //mobile functionality listeners
+        draggable1.addEventListener('touchstart', (event) => touchStart(event, draggable1));
+        draggable2.addEventListener('touchstart', (event) => touchStart(event, draggable2));
+        document.addEventListener('touchend', dragEnd);
+        document.addEventListener('touchmove', touchMove);
+
+        //starts dragging, uses isDragging variable to start, and removes the hyperlink attribute so it doesn't trigger on release.
+        function dragStart(event, draggable) {
+            if (draggable.id === 'draggable1') {
+                isDragging1 = true;
+            } else {
+                isDragging2 = true;
+            }
+            event.target.closest('.hyperlink').removeAttribute('href');
+            const rect = draggable.getBoundingClientRect();
+            if (draggable.id === 'draggable1') {
+                offsetX1 = event.clientX - rect.left;
+                offsetY1 = event.clientY - rect.top;
+            } else {
+                offsetX2 = event.clientX - rect.left;
+                offsetY2 = event.clientY - rect.top;
+            }
+        }
+
+        //sets isDragging to false and reapplies the hyperlink attribute on a 100ms timer as to not redirect upon drag release
+        function dragEnd() {
+            isDragging1 = false;
+            isDragging2 = false;
+            setTimeout(() => {
+                document.querySelectorAll('.hyperlink').forEach(link => link.setAttribute('href', link.getAttribute('data-href')));
+            }, 100);
+
+            //updates position variable with position of the folder from last drag.
+            const position1 = {
+                x: parseInt(draggable1.style.left),
+                y: parseInt(draggable1.style.top)
+            };
+            localStorage.setItem('folder1Position', JSON.stringify(position1));
+
+            const position2 = {
+                x: parseInt(draggable2.style.left),
+                y: parseInt(draggable2.style.top)
+            };
+            localStorage.setItem('folder2Position', JSON.stringify(position2));
+        }
+
+        //repositons elements to follow cursor
+        function drag(event, draggable) {
+            if ((draggable.id === 'draggable1' && isDragging1) || (draggable.id === 'draggable2' && isDragging2)) {
+                draggable.style.left = event.clientX - (draggable.id === 'draggable1' ? offsetX1 : offsetX2) + 'px';
+                draggable.style.top = event.clientY - (draggable.id === 'draggable1' ? offsetY1 : offsetY2) + 'px';
+                updateTextPosition(draggable, draggable.id === 'draggable1' ? text1 : text2);
+            }
+        }
+
+        //repositions text relative to the dragging folder element
+        function updateTextPosition(draggable, text) {
+            const folderRect = draggable.getBoundingClientRect();
+            const textRect = text.getBoundingClientRect();
+
+            // Center the text horizontally
+            const textLeft = folderRect.left + (folderRect.width - textRect.width) / 2;
+            text.style.left = textLeft + 'px';
+
+            // Position the text vertically at the bottom of the folder
+            text.style.top = folderRect.bottom + 'px';
+        }
+
+        function touchStart(event, draggable) {
+            if (draggable.id === 'draggable1') {
+                isDragging1 = true;
+            } else {
+                isDragging2 = true;
+            }
+            const touch = event.touches[0];
+            const rect = draggable.getBoundingClientRect();
+            if (draggable.id === 'draggable1') {
+                offsetX1 = touch.clientX - rect.left;
+                offsetY1 = touch.clientY - rect.top;
+            } else {
+                offsetX2 = touch.clientX - rect.left;
+                offsetY2 = touch.clientY - rect.top;
+            }
+        }
+
+        function touchMove(event) {
+          if (isDragging1) {
+            const touch = event.touches[0];
+            draggable1.style.left = touch.clientX - offsetX1 + 'px';
+            draggable1.style.top = touch.clientY - offsetY1 + 'px';
+            updateTextPosition(draggable1, text1);
+          } else if (isDragging2) {
+            const touch = event.touches[0];
+            draggable2.style.left = touch.clientX - offsetX2 + 'px';
+            draggable2.style.top = touch.clientY - offsetY2 + 'px';
+            updateTextPosition(draggable2, text2);
+          }
+        }
+    </script>
+</body>
+</html>
