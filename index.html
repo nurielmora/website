@@ -3,113 +3,144 @@
 <head>
     <style>
         /*draggable folder css element*/
-        #draggable{
+        .draggable {
             width: 64px;
             height: 56px;
-            background-image: url('https://raw.githubusercontent.com/nurielmora/website/main/pixelFolder.png');
             position: absolute;
             user-select: none;
+            background-size: cover;
         }
         /*label text that follows folder*/
-        #text{
+        .text {
             position: absolute;
             text-align: center;
             user-select: none;
+            font-family: 'Comic Sans MS', cursive;
         }
     </style>
 </head>
 <body>
-  <!--hyperlink attribute to draggable folder-->
-  <a id="hyperlink" href="https://google.com">
-    <div id="draggable"></div>
-  </a>
-    <div id="text">nuL</div>
+    <!--nuL attributes-->
+    <a class="hyperlink" href="https://google.com" data-href="https://google.com">
+        <div class="draggable" id="draggable1"></div>
+    </a>
+    <div class="text" id="text1">socials</div>
+
+    <!--nuP attributes-->
+    <a class="hyperlink" href="https://google.com" data-href="https://google.com">
+        <div class="draggable" id="draggable2"></div>
+    </a>
+    <div class="text" id="text2">about</div>
+
+    <!--nuB attributes-->
+    <a class="hyperlink" href="https://google.com" data-href="https://google.com">
+        <div class="draggable" id="draggable3"></div>
+    </a>
+    <div class="text" id="text3">placeholder</div>
+
+    <!--nuW attributes-->
+    <a class="hyperlink" href="https://google.com" data-href="https://google.com">
+        <div class="draggable" id="draggable4"></div>
+    </a>
+    <div class="text" id="text4">placeholder</div>
+
+    <!--nuR attributes-->
+    <a class="hyperlink" href="https://google.com" data-href="https://google.com">
+        <div class="draggable" id="draggable5"></div>
+    </a>
+    <div class="text" id="text5">placeholder</div>
+
     <!--js script to implement draggability and hyperlink functionality-->
     <script>
-        const draggable = document.getElementById('draggable');
-        const text = document.getElementById('text');
-        updateTextPosition();
-        let offsetX, offsetY;
-        let isDragging = false;
-        
-        //generates a random position for the folder to start if there is no position already saved in the browser local storage. saves position of folder from last visit.
-        if (!localStorage.getItem('folderPosition')) {
-            const randomX = Math.floor(Math.random() * (window.innerWidth - 64));
-            const randomY = Math.floor(Math.random() * (window.innerHeight - 56));
-            draggable.style.left = randomX + 'px';
-            draggable.style.top = randomY + 'px';
-            updateTextPosition();
-        } else {
-            const savedPosition = JSON.parse(localStorage.getItem('folderPosition'));
-            draggable.style.left = savedPosition.x + 'px';
-            draggable.style.top = savedPosition.y + 'px';
-            updateTextPosition();
-        }
-        
-        //event listeners
-        draggable.addEventListener('mousedown', dragStart);
-        draggable.addEventListener('mouseup', dragEnd);
-        document.addEventListener('mousemove', drag);
+        const imageUrls = [
+            'https://raw.githubusercontent.com/nurielmora/website/main/blackPixelFolder.png',
+            'https://raw.githubusercontent.com/nurielmora/website/main/bluePixelFolder.png',
+            'https://raw.githubusercontent.com/nurielmora/website/main/greenPixelFolder.png',
+            'https://raw.githubusercontent.com/nurielmora/website/main/orangePixelFolder.png',
+            'https://raw.githubusercontent.com/nurielmora/website/main/purplePixelFolder.png'
+        ];
 
-        //mobile functionality listeners
-        draggable.addEventListener('touchstart', touchStart);
-        document.addEventListener('touchend', dragEnd);
-        document.addEventListener('touchmove', touchMove);
+        const draggables = [];
+        const texts = [];
+        const offsets = {};
+        const isDragging = {};
 
-        //starts dragging, uses isDragging variable to start, and removes the hyperlink attribute so it doesn't trigger on release.
-        function dragStart(event) {
-            isDragging = true;
-            hyperlink.removeAttribute('href');
-            offsetX = event.clientX - draggable.getBoundingClientRect().left;
-            offsetY = event.clientY - draggable.getBoundingClientRect().top;
-        }
-        //sets isDragging to false and reapplies the hyperlink attribute on a 100ms timer as to not redirect upon drag release
-        function dragEnd() {
-            isDragging = false;
-            setTimeout(() => {
-                hyperlink.setAttribute('href', 'https://www.google.com');
-            },100);
+        for (let i = 1; i <= 5; i++) {
+            draggables[i] = document.getElementById(`draggable${i}`);
+            texts[i] = document.getElementById(`text${i}`);
+            isDragging[i] = false;
 
-            //updates position variable with position of the folder from last drag.
-            const position = {
-                x: parseInt(draggable.style.left),
-                y: parseInt(draggable.style.top)
-            };
-            localStorage.setItem('folderPosition', JSON.stringify(position));
+            draggables[i].style.backgroundImage = `url(${imageUrls[i - 1]})`;
+
+            initializeFolder(draggables[i], texts[i], i);
+
+            draggables[i].addEventListener('mousedown', (event) => dragStart(event, i));
+            draggables[i].addEventListener('mouseup', dragEnd);
+            document.addEventListener('mousemove', (event) => drag(event, i));
         }
 
-        //repositons elements to follow cursor
-        function drag(event) {
-            if (isDragging) {
-                draggable.style.left = event.clientX - offsetX + 'px';
-                draggable.style.top = event.clientY - offsetY + 'px';
-                updateTextPosition();
+        function initializeFolder(draggable, text, id) {
+            if (!localStorage.getItem(`folder${id}Position`)) {
+                // ensures shit dont generate outside the window
+                let randomX = Math.floor(Math.random() * (window.innerWidth - 64));
+                let randomY = Math.floor(Math.random() * (window.innerHeight - 56));
+                randomX = Math.max(0, Math.min(randomX, window.innerWidth - 64));
+                randomY = Math.max(0, Math.min(randomY, window.innerHeight - 56));
+
+                draggable.style.left = randomX + 'px';
+                draggable.style.top = randomY + 'px';
+                updateTextPosition(draggable, text);
+            } else {
+                const savedPosition = JSON.parse(localStorage.getItem(`folder${id}Position`));
+                draggable.style.left = savedPosition.x + 'px';
+                draggable.style.top = savedPosition.y + 'px';
+                updateTextPosition(draggable, text);
             }
-            updateTextPosition();
         }
-        //repositions text relative to the dragging folder element
-        function updateTextPosition() {
+
+        function dragStart(event, id) {
+            isDragging[id] = true;
+            event.target.closest('.hyperlink').removeAttribute('href');
+            const rect = draggables[id].getBoundingClientRect();
+            offsets[id] = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+        }
+
+        function dragEnd() {
+            for (let i = 1; i <= 5; i++) {
+                if (isDragging[i]) {
+                    isDragging[i] = false;
+                    const position = {
+                        x: parseInt(draggables[i].style.left),
+                        y: parseInt(draggables[i].style.top)
+                    };
+                    localStorage.setItem(`folder${i}Position`, JSON.stringify(position));
+                }
+            }
+
+            setTimeout(() => {
+                document.querySelectorAll('.hyperlink').forEach(link => link.setAttribute('href', link.getAttribute('data-href')));
+            }, 100);
+        }
+
+        function drag(event, id) {
+            if (isDragging[id]) {
+                let newX = event.clientX - offsets[id].x;
+                let newY = event.clientY - offsets[id].y;
+                // sets boundaries
+                newX = Math.max(0, Math.min(newX, window.innerWidth - 64));
+                newY = Math.max(0, Math.min(newY, window.innerHeight - 56));
+                draggables[id].style.left = newX + 'px';
+                draggables[id].style.top = newY + 'px';
+                updateTextPosition(draggables[id], texts[id]);
+            }
+        }
+
+        function updateTextPosition(draggable, text) {
             const folderRect = draggable.getBoundingClientRect();
-            const textRect = text.getBoundingClientRect();
-
-            // Center the text horizontally
-            const textLeft = folderRect.left + (folderRect.width - textRect.width) / 2;
+            const textLeft = folderRect.left + (folderRect.width - text.offsetWidth) / 2;
             text.style.left = textLeft + 'px';
-
-            // Position the text vertically at the bottom of the folder
             text.style.top = folderRect.bottom + 'px';
         }
-
-
-        function touchMove(event) {
-          if (isDragging) {
-            const touch = event.touches[0];
-            draggable.style.left = touch.clientX - offsetX + 'px';
-            draggable.style.top = touch.clientY - offsetY + 'px';
-            updateTextPosition();
-          }
-        }
-        updateTextPosition();
     </script>
 </body>
 </html>
