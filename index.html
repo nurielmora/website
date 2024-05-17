@@ -83,9 +83,9 @@
             if (!localStorage.getItem(`folder${id}Position`)) {
                 // ensures shit dont generate outside the window
                 let randomX = Math.floor(Math.random() * (window.innerWidth - 64));
-                let randomY = Math.floor(Math.random() * (window.innerHeight - 100));
+                let randomY = Math.floor(Math.random() * (window.innerHeight - 300));
                 randomX = Math.max(0, Math.min(randomX, window.innerWidth - 64));
-                randomY = Math.max(0, Math.min(randomY, window.innerHeight - 100));
+                randomY = Math.max(0, Math.min(randomY, window.innerHeight - 300));
 
                 draggable.style.left = randomX + 'px';
                 draggable.style.top = randomY + 'px';
