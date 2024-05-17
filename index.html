@@ -90,6 +90,7 @@
                 draggable.style.left = randomX + 'px';
                 draggable.style.top = randomY + 'px';
                 updateTextPosition(draggable, text);
+                const savedPosition = JSON.parse(localStorage.getItem(`folder${id}Position`));
             } else {
                 const savedPosition = JSON.parse(localStorage.getItem(`folder${id}Position`));
                 draggable.style.left = savedPosition.x + 'px';
