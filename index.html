@@ -82,9 +82,9 @@
         function initializeFolder(draggable, text, id) {
             if (!localStorage.getItem(`folder${id}Position`)) {
                 // ensures shit dont generate outside the window
-                let randomX = Math.floor(Math.random() * (window.innerWidth - 64));
+                let randomX = Math.floor(Math.random() * (window.innerWidth - 100));
                 let randomY = Math.floor(Math.random() * (window.innerHeight - 90));
-                randomX = Math.max(0, Math.min(randomX, window.innerWidth - 64));
+                randomX = Math.max(0, Math.min(randomX, window.innerWidth - 100));
                 randomY = Math.max(0, Math.min(randomY, window.innerHeight - 90));
 
                 draggable.style.left = randomX + 'px';
