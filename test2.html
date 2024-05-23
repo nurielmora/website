@@ -1,83 +1,169 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>About</title>
-  <style>
-    body {
-      font-family: 'Comic Sans MS', cursive;
-      font-size: 16px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    p.intro {
-      font-size: 40px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 1080px;
-    }
-    textarea {
-      width: 1080px;
-      height: 200px;
-      font-size: 16px;
-      padding: 10px;
-      box-sizing: border-box;
-      margin-bottom: 20px;
-    }
-    button {
-      font-size: 16px;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-  </style>
+    <style>
+        /*draggable folder css element*/
+        .draggable {
+            width: 64px;
+            height: 56px;
+            position: absolute;
+            user-select: none;
+            background-size: cover;
+        }
+        /*label text that follows folder*/
+        .text {
+            position: absolute;
+            text-align: center;
+            user-select: none;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        /* mobile unsupported message */
+        .mobile-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 24px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-  <p class="intro">hi!</p>
-  <p>This website is meant to share really anything I feel like; stuff I write, philosophies I adopt, conflicting dilemmas I think of, pretty much anything.<br><br>
-  My intentions with this website are to paint a clearer picture of myself to you, because I feel that I've gotten too used to playing myself up to entertain and/or fit in.<br><br>
-  I apologize in advance if some of the writing on here comes off as pretentious or annoying at times; those are habits I've adopted in writing and I work to fix them.<br><br>
-  My goal is that somebody will find this website and find something that can resonate with them, maybe offer some perspective or guidance.<br><br>
-  If I ever do open up other social media or start something new, chances are it'll be written about here. So in the future, if you're ever thinking "How's that Nuriel guy doing?"<br><br>
-  Come here and whatever I'm up to will most likely be posted.<br><br>
-  If I ever do get better at web design I would like to setup an anonymous message system, so that way you can ask questions anonymously and I'll give my thoughts here on some page on this site.<br><br>
-  So if I did ever do that, it'll most likely be on this page right below this text, so if you ever want my two cents on something, feel free to ask!<br><br>
-  It's forwarded to my personal email, so I'll get back to it as fast as I can.</p>
+    <!--mobile not supported message-->
+    <div class="mobile-message" id="mobileMessage">mobile not supported yet, sorry :(</div>
+    <!--socials attributes-->
+    <a class="hyperlink" href="https://google.com" data-href="https://google.com">
+        <div class="draggable" id="draggable1"></div>
+    </a>
+    <div class="text" id="text1">socials</div>
 
-  <form id="contact-form">
-    <label>
-      Your message:
-      <textarea id="message" placeholder="ask anything anonymously"></textarea>
-    </label>
-    <button type="submit">Send</button>
-  </form>
+    <!--about attributes-->
+    <a class="hyperlink" href="https://nuriel.net/about.html" data-href="https://nuriel.net/about.html">
+        <div class="draggable" id="draggable2"></div>
+    </a>
+    <div class="text" id="text2">about</div>
 
-  <script>
-    document.getElementById('contact-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      var message = document.getElementById('message').value;
-      var confirmationDiv = document.createElement('div');
-      confirmationDiv.textContent = "message sent, i'll respond soon!";
-      confirmationDiv.style.position = 'fixed';
-      confirmationDiv.style.top = '0';
-      confirmationDiv.style.left = '0';
-      confirmationDiv.style.width = '100%';
-      confirmationDiv.style.backgroundColor = '#4CAF50';
-      confirmationDiv.style.color = 'white';
-      confirmationDiv.style.padding = '20px';
-      confirmationDiv.style.textAlign = 'center';
-      confirmationDiv.style.zIndex = '1000';
-      document.body.appendChild(confirmationDiv);
-      setTimeout(function() {
-        confirmationDiv.remove();
-      }, 3000);
-    });
-  </script>
+    <!--placeholder attributes-->
+    <a class="hyperlink" href="https://google.com" data-href="https://google.com">
+        <div class="draggable" id="draggable3"></div>
+    </a>
+    <div class="text" id="text3">placeholder</div>
+
+    <!--placeholder attributes-->
+    <a class="hyperlink" href="https://google.com" data-href="https://google.com">
+        <div class="draggable" id="draggable4"></div>
+    </a>
+    <div class="text" id="text4">placeholder</div>
+
+    <!--placeholder attributes-->
+    <a class="hyperlink" href="https://google.com" data-href="https://google.com">
+        <div class="draggable" id="draggable5"></div>
+    </a>
+    <div class="text" id="text5">placeholder</div>
+
+    <!--js script to implement draggability and hyperlink functionality-->
+    <script>
+        function isMobileDevice() {
+            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+        }
+        function displayMobileMessage() {
+            const mobileMessage = document.getElementById('mobileMessage');
+            if (isMobileDevice()) {
+                mobileMessage.style.display = 'block';
+            }
+        }
+        displayMovileMessage();
+        const imageUrls = [
+            'https://raw.githubusercontent.com/nurielmora/website/main/folderImages/bluePixelFolder.png',
+            'https://raw.githubusercontent.com/nurielmora/website/main/folderImages/greenPixelFolder.png',
+            'https://raw.githubusercontent.com/nurielmora/website/main/folderImages/orangePixelFolder.png',
+            'https://raw.githubusercontent.com/nurielmora/website/main/folderImages/purplePixelFolder.png',
+            'https://raw.githubusercontent.com/nurielmora/website/main/folderImages/blackPixelFolder.png'
+        ];
+
+        const draggables = [];
+        const texts = [];
+        const offsets = {};
+        const isDragging = {};
+
+        for (let i = 1; i <= 5; i++) {
+            draggables[i] = document.getElementById(`draggable${i}`);
+            texts[i] = document.getElementById(`text${i}`);
+            isDragging[i] = false;
+
+            draggables[i].style.backgroundImage = `url(${imageUrls[i - 1]})`;
+
+            initializeFolder(draggables[i], texts[i], i);
+
+            draggables[i].addEventListener('mousedown', (event) => dragStart(event, i));
+            draggables[i].addEventListener('mouseup', dragEnd);
+            document.addEventListener('mousemove', (event) => drag(event, i));
+        }
+
+        function initializeFolder(draggable, text, id) {
+            if (!localStorage.getItem(`folder${id}Position`)) {
+                // ensures shit dont generate outside the window
+                let randomX = Math.floor(Math.random() * (window.innerWidth - 100));
+                let randomY = Math.floor(Math.random() * (window.innerHeight - 90));
+                randomX = Math.max(0, Math.min(randomX, window.innerWidth - 100));
+                randomY = Math.max(0, Math.min(randomY, window.innerHeight - 90));
+
+                draggable.style.left = randomX + 'px';
+                draggable.style.top = randomY + 'px';
+                updateTextPosition(draggable, text);
+            } else {
+                const savedPosition = JSON.parse(localStorage.getItem(`folder${id}Position`));
+                draggable.style.left = savedPosition.x + 'px';
+                draggable.style.top = savedPosition.y + 'px';
+                updateTextPosition(draggable, text);
+            }
+        }
+
+        function dragStart(event, id) {
+            isDragging[id] = true;
+            event.target.closest('.hyperlink').removeAttribute('href');
+            const rect = draggables[id].getBoundingClientRect();
+            offsets[id] = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+        }
+
+        function dragEnd() {
+            for (let i = 1; i <= 5; i++) {
+                if (isDragging[i]) {
+                    isDragging[i] = false;
+                    const position = {
+                        x: parseInt(draggables[i].style.left),
+                        y: parseInt(draggables[i].style.top)
+                    };
+                    localStorage.setItem(`folder${i}Position`, JSON.stringify(position));
+                }
+            }
+
+            setTimeout(() => {
+                document.querySelectorAll('.hyperlink').forEach(link => link.setAttribute('href', link.getAttribute('data-href')));
+            }, 100);
+        }
+
+        function drag(event, id) {
+            if (isDragging[id]) {
+                let newX = event.clientX - offsets[id].x;
+                let newY = event.clientY - offsets[id].y;
+                // sets boundaries
+                newX = Math.max(0, Math.min(newX, window.innerWidth - 64));
+                newY = Math.max(0, Math.min(newY, window.innerHeight - 56));
+                draggables[id].style.left = newX + 'px';
+                draggables[id].style.top = newY + 'px';
+                updateTextPosition(draggables[id], texts[id]);
+            }
+        }
+
+        function updateTextPosition(draggable, text) {
+            const folderRect = draggable.getBoundingClientRect();
+            const textLeft = folderRect.left + (folderRect.width - text.offsetWidth) / 2;
+            text.style.left = textLeft + 'px';
+            text.style.top = folderRect.bottom + 'px';
+        }
+    </script>
 </body>
 </html>
