@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>About</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    p.intro {
+      font-size: 40px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 1080px;
+    }
+    textarea {
+      width: 1080px;
+      height: 200px;
+      font-size: 16px;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <p class="intro">hi!</p>
+  <p>This website is meant to share really anything I feel like; stuff I write, philosophies I adopt, conflicting dilemmas I think of, pretty much anything.<br><br>
+  My intentions with this website are to paint a clearer picture of myself to you, because I feel that I've gotten too used to playing myself up to entertain and/or fit in.<br><br>
+  I apologize in advance if some of the writing on here comes off as pretentious or annoying at times; those are habits I've adopted in writing and I work to fix them.<br><br>
+  My goal is that somebody will find this website and find something that can resonate with them, maybe offer some perspective or guidance.<br><br>
+  If I ever do open up other social media or start something new, chances are it'll be written about here. So in the future, if you're ever thinking "How's that Nuriel guy doing?"<br><br>
+  Come here and whatever I'm up to will most likely be posted.<br><br>
+  If I ever do get better at web design I would like to setup an anonymous message system, so that way you can ask questions anonymously and I'll give my thoughts here on some page on this site.<br><br>
+  So if I did ever do that, it'll most likely be on this page right below this text, so if you ever want my two cents on something, feel free to ask!<br><br>
+  It's forwarded to my personal email, so I'll get back to it as fast as I can.</p>
+
+  <form id="contact-form">
+    <label>
+      Your message:
+      <textarea id="message" placeholder="ask anything anonymously"></textarea>
+    </label>
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Get the message from the textarea
+      var message = document.getElementById('message').value;
+
+      // Here you can handle sending the message using Ajax or any other method you prefer
+      // For demonstration purposes, let's just show a confirmation message
+
+      // Create a div for the confirmation message
+      var confirmationDiv = document.createElement('div');
+      confirmationDiv.textContent = 'Message sent successfully!';
+      confirmationDiv.style.position = 'fixed';
+      confirmationDiv.style.top = '0';
+      confirmationDiv.style.left = '0';
+      confirmationDiv.style.width = '100%';
+      confirmationDiv.style.backgroundColor = '#4CAF50';
+      confirmationDiv.style.color = 'white';
+      confirmationDiv.style.padding = '20px';
+      confirmationDiv.style.textAlign = 'center';
+      confirmationDiv.style.zIndex = '1000';
+      
+      // Append the confirmation message to the body
+      document.body.appendChild(confirmationDiv);
+
+      // Remove the confirmation message after 3 seconds
+      setTimeout(function() {
+        confirmationDiv.remove();
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
