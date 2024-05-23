@@ -17,9 +17,22 @@
             user-select: none;
             font-family: 'Comic Sans MS', cursive;
         }
+        /* mobile unsupported message */
+        .mobile-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 24px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+    <!--mobile not supported message-->
+    <div class="mobile-message" id="mobileMessage">Mobile not supported yet, sorry :(</div>
     <!--socials attributes-->
     <a class="hyperlink" href="https://google.com" data-href="https://google.com">
         <div class="draggable" id="draggable1"></div>
@@ -27,7 +40,7 @@
     <div class="text" id="text1">socials</div>
 
     <!--about attributes-->
-    <a class="hyperlink" href="https://google.com" data-href="https://nurielmora.github.io/website/about.html">
+    <a class="hyperlink" href="https://nuriel.net/about.html" data-href="https://nuriel.net/about.html">
         <div class="draggable" id="draggable2"></div>
     </a>
     <div class="text" id="text2">about</div>
@@ -52,12 +65,28 @@
 
     <!--js script to implement draggability and hyperlink functionality-->
     <script>
+
+    function isMobileDevice() {
+            return /Mobi|Android/i.test(navigator.userAgent);
+        }
+        if (isMobileDevice()) {
+            document.getElementById('mobileMessage').style.display = 'block';
+            document.querySelectorAll('.draggable, .text, .hyperlink').forEach(el => el.style.display = 'none');
+        } else {
+            const imageUrls = [
+                'https://raw.githubusercontent.com/FireMS/nuriel/main/bluePixelFolder.png',
+                'https://raw.githubusercontent.com/FireMS/nuriel/main/greenPixelFolder.png',
+                'https://raw.githubusercontent.com/FireMS/nuriel/main/orangePixelFolder.png',
+                'https://raw.githubusercontent.com/FireMS/nuriel/main/purplePixelFolder.png',
+                'https://raw.githubusercontent.com/FireMS/nuriel/main/blackPixelFolder.png'
+            ];
+
         const imageUrls = [
-            'https://raw.githubusercontent.com/nurielmora/website/main/blackPixelFolder.png',
-            'https://raw.githubusercontent.com/nurielmora/website/main/bluePixelFolder.png',
-            'https://raw.githubusercontent.com/nurielmora/website/main/greenPixelFolder.png',
-            'https://raw.githubusercontent.com/nurielmora/website/main/orangePixelFolder.png',
-            'https://raw.githubusercontent.com/nurielmora/website/main/purplePixelFolder.png'
+          'https://raw.githubusercontent.com/FireMS/nuriel/main/bluePixelFolder.png',
+          'https://raw.githubusercontent.com/FireMS/nuriel/main/greenPixelFolder.png',
+          'https://raw.githubusercontent.com/FireMS/nuriel/main/orangePixelFolder.png',
+          'https://raw.githubusercontent.com/FireMS/nuriel/main/purplePixelFolder.png',
+          'https://raw.githubusercontent.com/FireMS/nuriel/main/blackPixelFolder.png'
         ];
 
         const draggables = [];
