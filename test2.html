@@ -60,17 +60,10 @@
 
   <script>
     document.getElementById('contact-form').addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent default form submission
-
-      // Get the message from the textarea
+      event.preventDefault();
       var message = document.getElementById('message').value;
-
-      // Here you can handle sending the message using Ajax or any other method you prefer
-      // For demonstration purposes, let's just show a confirmation message
-
-      // Create a div for the confirmation message
       var confirmationDiv = document.createElement('div');
-      confirmationDiv.textContent = 'Message sent successfully!';
+      confirmationDiv.textContent = "message sent, i'll respond soon!";
       confirmationDiv.style.position = 'fixed';
       confirmationDiv.style.top = '0';
       confirmationDiv.style.left = '0';
@@ -80,11 +73,7 @@
       confirmationDiv.style.padding = '20px';
       confirmationDiv.style.textAlign = 'center';
       confirmationDiv.style.zIndex = '1000';
-      
-      // Append the confirmation message to the body
       document.body.appendChild(confirmationDiv);
-
-      // Remove the confirmation message after 3 seconds
       setTimeout(function() {
         confirmationDiv.remove();
       }, 3000);
