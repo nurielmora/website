@@ -1,25 +1,77 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>about</title>
-      <p style="font-size: 40px; font-family: 'Comic Sans MS', cursive;">hi!</p>
-    <style>
-      body {
-        font-family: 'Comic Sans MS', cursive;
-        font-size: 16px;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <p>this website meant to share really anything i feel like; stuff i write, philosophies i adopt, conflicting dilemmas i think of, pretty much anything.<br><br>
-    my intentions with this website is to paint a clearer picture of myself to you, cause i feel that i've gotten too used to playing myself up to entertain and/or fit in.<br><br>
-    i apologize in advance if some of the writing on here comes off as pretentious or annoying at times; those are habits i've adopted in writing and i work to fix them.<br><br>
-    my goal is that somebody will find this website and find something that can resonate with them, maybe offer some perspective or guidance.<br><br>
-    if i ever do open up other social media or start something new, chances are it'll be written about here. so in the future, if you're ever thinking "how's that nuriel guy doing?"<br><br>
-    come here and whatever i'm up to will most likely be posted.<br><br>
-    if i ever do get better at web design i would like to setup an anonymous message system, so that way you can ask questions anonymously and i'll give my thoughts here on some page on this site.<br><br>
-    so if i did ever do that, it'll most likely be on this page right below this text, so if you ever want my two cents on something, feel free to ask!<br><br>
-    it's forwarded to my personal email, so i'll get back to it as fast as i can.</p>
-  </body>
+<head>
+  <title>About</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    p.intro {
+      font-size: 40px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 1080px;
+    }
+    textarea {
+      width: 1080px;
+      height: 200px;
+      font-size: 16px;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <p class="intro">hi!</p>
+  <p>This website is meant to share really anything I feel like; stuff I write, philosophies I adopt, conflicting dilemmas I think of, pretty much anything.<br><br>
+  My intentions with this website are to paint a clearer picture of myself to you, because I feel that I've gotten too used to playing myself up to entertain and/or fit in.<br><br>
+  I apologize in advance if some of the writing on here comes off as pretentious or annoying at times; those are habits I've adopted in writing and I work to fix them.<br><br>
+  My goal is that somebody will find this website and find something that can resonate with them, maybe offer some perspective or guidance.<br><br>
+  If I ever do open up other social media or start something new, chances are it'll be written about here. So in the future, if you're ever thinking "How's that Nuriel guy doing?"<br><br>
+  Come here and whatever I'm up to will most likely be posted.<br><br>
+  If I ever do get better at web design I would like to setup an anonymous message system, so that way you can ask questions anonymously and I'll give my thoughts here on some page on this site.<br><br>
+  So if I did ever do that, it'll most likely be on this page right below this text, so if you ever want my two cents on something, feel free to ask!<br><br>
+  It's forwarded to my personal email, so I'll get back to it as fast as I can.</p>
+
+  <form action="https://formspree.io/f/xoqgzade" method="POST">
+    <label>
+      Your message:
+      <textarea name="message" placeholder="ask anything anonymously"></textarea>
+    </label>
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    // Function to center all elements on the screen
+    function centerElements() {
+      const elementsToCenter = document.querySelectorAll('.centered');
+      elementsToCenter.forEach(element => {
+        element.style.position = 'absolute';
+        element.style.top = '50%';
+        element.style.left = '50%';
+        element.style.transform = 'translate(-50%, -50%)';
+      });
+    }
+
+    // Call the function initially
+    window.addEventListener('DOMContentLoaded', centerElements);
+  </script>
+</body>
 </html>
