@@ -50,28 +50,34 @@
   So if I did ever do that, it'll most likely be on this page right below this text, so if you ever want my two cents on something, feel free to ask!<br><br>
   It's forwarded to my personal email, so I'll get back to it as fast as I can.</p>
 
-  <form action="https://formspree.io/f/xoqgzade" method="POST">
+  <form id="contact-form">
     <label>
       Your message:
-      <textarea name="message" placeholder="ask anything anonymously"></textarea>
+      <textarea id="message" placeholder="ask anything anonymously"></textarea>
     </label>
     <button type="submit">Send</button>
   </form>
 
   <script>
-    //centers everything
-    function centerElements() {
-      const elementsToCenter = document.querySelectorAll('.centered');
-      elementsToCenter.forEach(element => {
-        element.style.position = 'absolute';
-        element.style.top = '50%';
-        element.style.left = '50%';
-        element.style.transform = 'translate(-50%, -50%)';
-      });
-    }
-
-    // Call the function initially
-    window.addEventListener('DOMContentLoaded', centerElements);
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var message = document.getElementById('message').value;
+      var confirmationDiv = document.createElement('div');
+      confirmationDiv.textContent = "message sent, i'll respond soon!";
+      confirmationDiv.style.position = 'fixed';
+      confirmationDiv.style.top = '0';
+      confirmationDiv.style.left = '0';
+      confirmationDiv.style.width = '100%';
+      confirmationDiv.style.backgroundColor = '#4CAF50';
+      confirmationDiv.style.color = 'white';
+      confirmationDiv.style.padding = '20px';
+      confirmationDiv.style.textAlign = 'center';
+      confirmationDiv.style.zIndex = '1000';
+      document.body.appendChild(confirmationDiv);
+      setTimeout(function() {
+        confirmationDiv.remove();
+      }, 3000);
+    });
   </script>
 </body>
 </html>
