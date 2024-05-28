@@ -158,19 +158,13 @@
             text.style.left = textLeft + 'px';
             text.style.top = folderRect.bottom + 'px';
         }
+        //checks if user is on mobile
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
             document.getElementById('mobileMessage').style.display = 'block';
-            mobileMessage.style.top = '50%';
-
-
-            let randomX = Math.floor(Math.random() * (window.innerWidth - 100));
-            let randomY = Math.floor(Math.random() * (window.innerHeight - 90));
-            randomX = Math.max(0, Math.min(randomX, window.innerWidth - 100));
-            randomY = Math.max(0, Math.min(randomY, window.innerHeight - 90));
-            draggable.style.left = randomX + 'px';
-            draggable.style.top = randomY + 'px';
-            updateTextPosition(draggable, text);
+            document.getElementById('mobileMessage').style.top = '50%';
+        } else {
+            document.getElementById('mobileMessage').style.display = 'none'; // Hide the message if not on a mobile device
         }
     </script>
 </body>
