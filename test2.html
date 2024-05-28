@@ -162,7 +162,15 @@
         if (isMobile) {
             document.getElementById('mobileMessage').style.display = 'block';
             mobileMessage.style.top = '50%';
-            console.log("test");
+
+
+            let randomX = Math.floor(Math.random() * (window.innerWidth - 100));
+            let randomY = Math.floor(Math.random() * (window.innerHeight - 90));
+            randomX = Math.max(0, Math.min(randomX, window.innerWidth - 100));
+            randomY = Math.max(0, Math.min(randomY, window.innerHeight - 90));
+            draggable.style.left = randomX + 'px';
+            draggable.style.top = randomY + 'px';
+            updateTextPosition(draggable, text);
         }
     </script>
 </body>
